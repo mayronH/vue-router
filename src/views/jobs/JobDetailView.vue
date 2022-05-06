@@ -6,9 +6,12 @@
 
 <script>
 export default {
+  // To get the router params as props, the props property on the router component must be true
+  props: ["id"],
   data() {
     return {
-      id: this.$route.params.id,
+      // Using the router object to get the value of id
+      // id: this.$route.params.id,
     };
   },
 };
