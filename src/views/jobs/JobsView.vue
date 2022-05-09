@@ -1,11 +1,15 @@
 <template>
   <main>
     <h1>Jobs</h1>
-
-    <div v-for="job in jobs" :key="job.id" class="job">
-      <router-link :to="{ name: 'jobDetail', params: { id: job.id } }">
-        <h2>{{ job.title }}</h2>
-      </router-link>
+    <div v-if="jobs.length">
+      <div v-for="job in jobs" :key="job.id" class="job">
+        <router-link :to="{ name: 'jobDetail', params: { id: job.id } }">
+          <h2>{{ job.title }}</h2>
+        </router-link>
+      </div>
+    </div>
+    <div v-else>
+      <p>Loading Jobs...</p>
     </div>
   </main>
 </template>
@@ -14,16 +18,15 @@
 export default {
   data() {
     return {
-      jobs: [
-        { id: 1, title: "First Title", details: "Lorem ipsum dolor sit amet." },
-        {
-          id: 2,
-          title: "Second Title",
-          details: "Lorem ipsum dolor sit amet.",
-        },
-        { id: 3, title: "Third Title", details: "Lorem ipsum dolor sit amet." },
-      ],
+      jobs: [],
     };
+  },
+  // Fetch request. Using in mounted is the best, will only fetch when the view is called.
+  mounted() {
+    fetch("http://localhost:3000/jobs")
+      .then((response) => response.json())
+      .then((data) => (this.jobs = data))
+      .catch((error) => console.log(error.message));
   },
 };
 </script>
