@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import NotFound from "../views/NotFound.vue"
 
 const routes = [
   {
@@ -29,6 +30,17 @@ const routes = [
       import(/* webpackChunkName: "jobs" */ "../views/jobs/JobDetailView.vue"),
     props: true,
   },
+  // redirect
+  {
+    path: "/all-jobs", // old url
+    redirect: "/jobs" // new url
+  },
+  // 404 Page
+  {
+    path: "/:catchAll(.*)", // regex, catch any route that doesn't exists
+    name: "Not Found",
+    component: NotFound
+  }
 ];
 
 const router = createRouter({
