@@ -2,8 +2,7 @@
   <header>
     <nav>
       <!-- Route name is case sensitive -->
-      <router-link to="/">Home</router-link> |
-      <router-link :to="{ name: 'about' }">About</router-link> |
+      <router-link to="/">Home</router-link> | <router-link :to="{ name: 'about' }">About</router-link> |
       <router-link :to="{ name: 'jobs' }">Jobs</router-link>
     </nav>
 
@@ -13,7 +12,12 @@
       <button @click="goforward">Go Forward</button>
     </div>
   </header>
-  <router-view />
+
+  <router-view v-slot="{ Component }">
+    <Transition name="page-transition" mode="out-in">
+      <component :is="Component" />
+    </Transition>
+  </router-view>
 </template>
 
 <script>
@@ -21,18 +25,18 @@ export default {
   methods: {
     redirect() {
       // Redirect to another route
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: 'home' })
     },
     goback() {
       // $route = currenct route
       // $router = all routes
-      this.$router.go(-1); // Go back 1 page
+      this.$router.go(-1) // Go back 1 page
     },
     goforward() {
-      this.$router.go(1); // Go forward 1 page
+      this.$router.go(1) // Go forward 1 page
     },
   },
-};
+}
 </script>
 
 <style>
@@ -59,5 +63,15 @@ header .buttons button {
 
   background: #fff;
   cursor: pointer;
+}
+
+.page-transition-enter-active {
+  transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.page-transition-enter-from,
+.page-transition-leave-to {
+  opacity: 0;
+  transform: translate3d(-120px, 0, 0);
 }
 </style>
